@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puntuación Final</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Lacquer&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos como los tienes en tu código */
+        body {
+            font-family: 'Indie Flower', sans-serif;
+            text-align: center;
+            background-color: #e3f2fd;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('Images/FondoSport.jpg') no-repeat center center/cover;
+            filter: blur(8px);
+            z-index: -1;
+        }
+        .rgb-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, red, orange, yellow, green, cyan, blue, purple, red);
+            background-size: 300% 300%;
+            animation: rgbAnimation 5s infinite;
+            z-index: -2;
+        }
+
+        @keyframes rgbAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background: url('Images/FondoSport.jpg') no-repeat center center/cover;
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            z-index: 1;
+        }
+
+        .container > * {
+            position: relative;
+            z-index: 2;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .score {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .feedback {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .incorrect {
+            color: red;
+        }
+        .correct {
+            color: green;
+        }
+        button {
+            background-color: #EFAE3E;
+            font-family: 'Indie Flower', sans-serif;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 26px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #916A1F;
+        }
+        .logo {
+            position: fixed;
+            top: 20px;
+            left: 40px;
+            width: 400px;
+            height: auto;
+            z-index: 10;
+        }
+        #user-info {
+        font-size: 26px; /* Cambia el tamaño de la tipografía aquí */
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #333; /* Puedes cambiar el color si lo deseas */
+        }
+
+        #feedback {
+        font-size: 23px; /* Cambia el tamaño de la tipografía aquí */
+        margin-top: 20px;
+        text-align: left;
+        color: #333; /* Puedes cambiar el color si lo deseas */
+        }
+    </style>
+</head>
+<body>
+    <!-- Bordes RGB animados -->
+    <div class="rgb-border"></div>
+    <!-- Logotipo -->
+    <img src="Images/LogoArte (2).png" alt="Logotipo" class="logo">
+    <div class="container">
+        <!-- Mostrar el nombre y edad aquí -->
+        <p id="user-info"></p>
+        <h1>¡Puntuación Final!</h1>
+        <p class="score" id="final-score">0/100</p>
+        <div id="feedback" class="feedback"></div>
+        <button onclick="restartQuiz()">Reintentar</button>
+    </div>
+
+    <script>
+        // Recuperar nombre y edad almacenados
+        const userName = localStorage.getItem("userName") || "Jugador";
+        const userAge = localStorage.getItem("userAge") || "N/A";
+
+        // Mostrar el nombre y edad
+        document.getElementById("user-info").textContent = `${userName}, de ${userAge} años, tu puntuación final es:`;
+
+        // Respuestas correctas y respuestas del usuario
+        const correctAnswers = ["B", "A", "B", "A", "A"];
+        const userAnswers = JSON.parse(localStorage.getItem("userAnswers")) || [];
+        let score = 0;
+        let feedbackHTML = "";
+
+        const totalQuestions = correctAnswers.length;
+
+        // Comprobamos las respuestas y calculamos la puntuación
+        userAnswers.forEach((answer, index) => {
+            if (answer === correctAnswers[index]) {
+                score += 20; // Cada respuesta correcta vale 10 puntos
+                feedbackHTML += `<p class="correct">Pregunta ${index + 1}: Correcta!</p>`;
+            } else {
+                feedbackHTML += `<p class="incorrect">Pregunta ${index + 1}: Incorrecta. La respuesta correcta era: ${correctAnswers[index]}</p>`;
+            }
+        });
+
+        // Mostrar la puntuación final y la retroalimentación
+        document.getElementById("final-score").textContent = `${score}/100`;
+        document.getElementById("feedback").innerHTML = feedbackHTML;
+
+        // Función para reiniciar la trivia
+        function restartQuiz() {
+            localStorage.removeItem("userAnswers"); // Eliminar respuestas almacenadas
+
+            // Restablecer estado de comodines
+            const initialLifelines = {
+                correctAnswer: true,
+                fiftyFifty: true,
+            };
+            localStorage.setItem("lifelines", JSON.stringify(initialLifelines));
+
+            // Volver al inicio
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>

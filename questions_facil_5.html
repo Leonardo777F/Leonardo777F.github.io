@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pregunta 4</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Lacquer&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lacquer', sans-serif;
+            text-align: center;
+            background-color: #e3f2fd;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('Images/FondoSport.jpg') no-repeat center center/cover;
+            filter: blur(5px);
+            z-index: -1;
+        }
+
+        .rgb-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, red, orange, yellow, green, cyan, blue, purple, red);
+            background-size: 300% 300%;
+            animation: rgbAnimation 5s infinite;
+            z-index: -2;
+        }
+
+        @keyframes rgbAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background: url('Images/FondoSport.jpg') no-repeat center center/cover; /* Imagen de papel */
+            position: relative; /* Permite posicionamiento relativo para capas internas */
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8); /* Capa translúcida sobre el fondo */
+            border-radius: 8px; /* Coincide con los bordes del contenedor */
+            z-index: 1; /* Coloca detrás del contenido */
+        }
+
+        .container > * {
+            position: relative; /* Asegura que el contenido esté encima de la capa translúcida */
+            z-index: 2;
+        }
+
+        .question {
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-family: 'Indie Flower', sans-serif;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .options button {
+            background-color: #EFAE3E;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 28px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            font-family: 'Indie Flower', sans-serif;
+        }
+
+        .options button:hover {
+            background-color: #916A1F;
+        }
+
+        .logo {
+            position: fixed;
+            top: 20px;
+            left: 40px;
+            width: 400px;
+            height: auto;
+            z-index: 10;
+        }
+
+        .gif-audio {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 500px;
+            height: 400px;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        .lifelines {
+            margin-top: 20px; /* Separación superior con las opciones */
+            display: flex;
+            justify-content: center; /* Centrar los botones horizontalmente */
+            gap: 15px; /* Espacio entre los botones */
+        }
+
+        .lifelines button {
+            background-color: #EFAE3E; /* Color de fondo */
+            font-family: 'Indie Flower', sans-serif; /* Tipografía */
+            color: white; /* Color del texto */
+            border: none; /* Sin borde */
+            padding: 10px 20px; /* Tamaño del botón */
+            font-size: 20px; /* Tamaño de la tipografía */
+            cursor: pointer; /* Manito al pasar el cursor */
+            border-radius: 5px; /* Bordes redondeados */
+            transition: background-color 0.3s ease; /* Transición suave */
+        }
+
+        .lifelines button:hover {
+            background-color: #916A1F; /* Color al pasar el cursor */
+        }
+
+        .lifelines button:disabled {
+            background-color: #ccc; /* Color de botones deshabilitados */
+            cursor: not-allowed; /* Cursor bloqueado */
+        }
+    </style>
+</head>
+<body>
+    <!-- Bordes RGB animados -->
+    <div class="rgb-border"></div>
+    <!-- Logotipo -->
+    <img src="Images/LogoArte (2).png" alt="Logotipo" class="logo">
+
+    <!-- Contenedor principal -->
+    <div class="container">
+        <h1>Pregunta 5</h1>
+        <div id="countdown" style="font-size: 20px; margin-top: 10px; color: red;"></div>
+        <div class="question">¿Cuántos minutos dura un partido de fútbol profesional?</div>
+        <div class="options">
+            <button onclick="selectAnswer('A', 'score_facil.html')">A. 60 minutos</button>
+            <button onclick="selectAnswer('B', 'score_facil.html')">B. 80 minutos</button>
+            <button onclick="selectAnswer('C', 'score_facil.html')">C. 90 minutos</button>
+            <button onclick="selectAnswer('D', 'score_facil.html')">D. 150 minutos</button>
+        </div>    
+        <div class="lifelines">
+            <button id="btn-correct-answer" onclick="useCorrectAnswer()">Respuesta Correcta</button>
+            <button id="btn-5050" onclick="use5050()">50:50</button>
+        </div>                           
+    </div>
+
+    <img id="dogGif" src="Images/tyfg.gif" alt="Activar audio" class="gif-audio" onclick="toggleGif()">
+    <audio id="audio" src="Audios/Facil5.mp3"></audio>
+
+    <script>
+        const correctAnswers = ["A", "B", "C", "D"];
+        let userAnswers = JSON.parse(localStorage.getItem("userAnswers")) || [];
+        let isTalking = false;
+
+        function selectAnswer(answer, nextPage) {
+            userAnswers.push(answer);
+            localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
+            window.location.href = nextPage;
+        }
+
+        function toggleGif() {
+        const gifElement = document.getElementById("dogGif");
+        const audio = document.getElementById("audio");
+
+        if (!isTalking) {
+            gifElement.src = "Images/PerroHablando.gif";
+            audio.currentTime = 0; // Reinicia el audio
+            audio.play();
+            isTalking = true;
+
+            // Cambiar de nuevo a la pose estática después de 11 segundos
+            setTimeout(() => {
+                gifElement.src = "Images/tyfg.gif";
+                audio.pause();
+                isTalking = false;
+            }, 11500); // 17500 ms = 11 segundos
+        }
+    }
+
+                    // Estado inicial de los comodines
+                    let lifelines = JSON.parse(localStorage.getItem("lifelines")) || {
+        correctAnswer: true,
+        fiftyFifty: true,
+    };
+
+    function selectAnswer(answer, nextPage) {
+        // Guardar la respuesta del usuario
+        const userAnswers = JSON.parse(localStorage.getItem("userAnswers")) || [];
+        userAnswers.push(answer);
+        localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
+        window.location.href = nextPage;
+    }
+
+    function useCorrectAnswer() {
+        if (!lifelines.correctAnswer) {
+            alert("El comodín de respuesta correcta ya ha sido utilizado.");
+            return;
+        }
+
+        // Mostrar respuesta correcta visualmente
+        alert("La respuesta correcta es: C. 90 minutos");
+        lifelines.correctAnswer = false;
+        localStorage.setItem("lifelines", JSON.stringify(lifelines));
+        document.getElementById("btn-correct-answer").disabled = true;
+    }
+
+    function use5050() {
+        if (!lifelines.fiftyFifty) {
+            alert("El comodín 50:50 ya ha sido utilizado.");
+            return;
+        }
+
+        // Ocultar dos opciones incorrectas
+        const allOptions = document.querySelectorAll(".options button");
+        let hidden = 0;
+
+        for (let btn of allOptions) {
+            if (btn.textContent !== "C. 90 minutos" && hidden < 2) {
+                btn.style.display = "none";
+                hidden++;
+            }
+        }
+
+        lifelines.fiftyFifty = false;
+        localStorage.setItem("lifelines", JSON.stringify(lifelines));
+        document.getElementById("btn-5050").disabled = true;
+    }
+
+    // Deshabilitar botones si los comodines ya se usaron
+    document.getElementById("btn-correct-answer").disabled = !lifelines.correctAnswer;
+    document.getElementById("btn-5050").disabled = !lifelines.fiftyFifty;
+
+                // Código existente para manejar respuestas
+                function selectAnswer(answer, nextPage) {
+        const userAnswers = JSON.parse(localStorage.getItem("userAnswers")) || [];
+        userAnswers.push(answer);
+        localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
+        window.location.href = nextPage;
+    }
+
+    // Configuración del temporizador
+    let timer = 25; // Tiempo límite en segundos
+    const countdownElement = document.getElementById("countdown");
+
+    const interval = setInterval(() => {
+        countdownElement.innerText = `Tiempo restante: ${timer} segundos`;
+
+        if (timer <= 0) {
+            clearInterval(interval); // Detener el temporizador
+            selectIncorrectAnswer(); // Seleccionar respuesta incorrecta automáticamente
+        }
+
+        timer--;
+    }, 1000);
+
+    // Función para seleccionar automáticamente una respuesta incorrecta
+    function selectIncorrectAnswer() {
+        const incorrectAnswers = ["A", "B", "D"]; // Opciones incorrectas para esta pregunta
+        const randomIndex = Math.floor(Math.random() * incorrectAnswers.length);
+        const selectedAnswer = incorrectAnswers[randomIndex];
+
+        // Guardar la respuesta incorrecta en localStorage
+        const userAnswers = JSON.parse(localStorage.getItem("userAnswers")) || [];
+        userAnswers.push(selectedAnswer); // Agregar respuesta incorrecta
+        localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
+
+        // Redirigir a la siguiente página
+        window.location.href = "score_facil.html";
+    }
+    </script>
+</body>
+</html>

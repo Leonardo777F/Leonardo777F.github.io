@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia de Diseño</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Jaro:opsz@6..72&family=Lacquer&display=swap" rel="stylesheet">
+    <style>
+        /* Estilo principal */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Altura completa */
+            overflow: hidden; /* Evita scroll */
+            position: relative;
+        }
+
+        /* Fondo con imagen */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('Images/FondoSport.jpg') no-repeat center center/cover;
+            filter: blur(5px); /* Aplicar desenfoque */
+            z-index: -1; /* Colocar detrás del contenido */
+        }
+
+        /* Bordes RGB animados */
+        .rgb-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, red, orange, yellow, green, cyan, blue, purple, red);
+            background-size: 300% 300%;
+            animation: rgbAnimation 5s infinite;
+            z-index: -2; /* Colocar detrás de la imagen desenfocada */
+        }
+
+        @keyframes rgbAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            text-align: center; /* Asegura el centrado de todos los elementos */
+        }
+
+        img.logo {
+            max-width: 80%; /* Reduce el tamaño del logo si es muy grande */
+            height: auto;
+            display: block; /* Hace que la imagen sea un bloque para evitar desplazamientos */
+            margin: 0 auto 20px auto; /* Añade un margen inferior para separar del botón */
+        }
+
+        button {
+            background-color: #F2E4BB;
+            color: rgb(0, 0, 0);
+            border: none;
+            padding: 15px 30px;
+            font-size: 28px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px; /* Separación del botón respecto al logo */
+            font-family: 'Indie Flower', sans-serif;
+        }
+
+        button:hover {
+            background-color: #b5ab8d;
+        }
+
+        .sponsors {
+            display: flex; /* Alinea los elementos horizontalmente */
+            justify-content: center; /* Centra los elementos */
+            align-items: center; /* Centra verticalmente las imágenes */
+            gap: 20px; /* Espaciado entre patrocinadores */
+            margin-top: 30px; /* Espaciado respecto al botón */
+        }
+
+        .sponsors img {
+            width: 45%; /* Ajusta el tamaño de las imágenes */
+            max-width: 200px; /* Tamaño máximo */
+        }
+    </style>
+</head>
+<body>
+    <!-- Bordes RGB animados -->
+    <div class="rgb-border"></div>
+
+    <div class="container">
+        <!-- Logotipo centrado -->
+        <img class="logo" src="Images/LogoArte (2).png" alt="Logotipo de Trivia">
+        <!-- Botón centrado justo debajo -->
+        <button onclick="location.href='rules.html'">Iniciar</button>
+        <!-- Patrocinadores -->
+        <div class="sponsors">
+            <img src="Images/Logo_Universidad_Politécnica_Salesiana_del_Ecuador.png" alt="Patrocinador UPS">
+            <img src="Images/Promo2.png" alt="Patrocinador 2">
+        </div>
+    </div>
+</body>
+</html>
